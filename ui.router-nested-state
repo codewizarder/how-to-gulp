@@ -1,0 +1,30 @@
+   // product edits nested views , abstract property will prevent activating the state directly, hence it will automatically activated when child state activates  
+.state("productEdit",{
+                abstract: true,
+                url: "/products/edit/:productId",
+                templateUrl: "app/products/views/product_edit/productEditView.html",
+                controller: "ProductEditCtrl as vm",
+                resolve: {
+                    resource: "productResource",
+                    
+                    // "productx" is the key name to inject in controller for the data with same key name
+                    product: function(resource, $stateParams){
+                        var productId = $stateParams.productId;
+                        return resource.get(
+                            {productId: productId}).$promise;
+                    }
+                }                
+            })    
+            .state("productEdit.info",{
+                url: "/info",
+                templateUrl: "app/products/views/product_edit/productEdit_Info.html"
+            })              
+            .state("productEdit.price",{
+                url: "/price",
+                templateUrl: "app/products/views/product_edit/productEdit_Price.html"
+            })              
+            .state("productEdit.tags",{
+                url: "/tags",
+                templateUrl: "app/products/views/product_edit/productEdit_Tags.html"
+//                controller: "productEditTagsCtrl as vmr" // if we specify a controller, both parent controller + child controller will work with DOM, can bind data or do anything from both controllers at once
+            })        
