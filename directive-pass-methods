@@ -1,0 +1,27 @@
+calling from here
+-----------------
+vm.rrGuardianMethods = {};
+<rr-guardians relationships="vm.student.guardianRelationships" editable="true" methods="vm.rrGuardianMethods"></rr-guardians>
+
+
+Inside the directive looks like below
+---------------------------------------
+
+scope: {
+        relationships: '=',
+        editable: '=?',
+        methods: '=?'
+    }
+    
+    if (angular.isObject($scope.methods)) {
+                var m = $scope.methods;
+
+                m.add = function () { add(); };
+                m.remove = function (relationship) { remove(relationship); };
+                m.isFormsValid = function () { return isFormsValid(); };
+                m.submitForm = function () {
+                    $scope.guardianForms.filter(function (form) {
+                        form.$setSubmitted();
+                    });
+                };
+            }
