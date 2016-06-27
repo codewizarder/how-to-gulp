@@ -35,7 +35,7 @@ gulp.task('sass', function(){
 gulp.task('watch', function(){
     gulp.watch(config.paths.html, browserSync.reload);
     gulp.watch(config.paths.css, ['css']);
-    gulp.watch(config.paths.sass, ['sass']);
+    gulp.watch(config.paths.sass, ['sass']); // only if used sass
     gulp.watch(config.paths.js, browserSync.reload);
 })
 
