@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html ng-app="website">
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS Animate Slider</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body ng-controller="MainCtrl">
+    <div class="slider-container">.
+
+        <div class="container slider centered">
+            <div class="slide slide-animation" ng-repeat="slide in slides">
+                <img class="image-box" ng-hide="!isCurrentSlideIndex($index)" ng-src="{{slide.image}}">
+            </div>
+            <span class="glyphicon glyphicon-menu-left left-slider" ng-click="nextSlide()" ></span>
+            <span class="glyphicon glyphicon-menu-right right-slider" ng-click="prevSlide()" ></span>
+            
+            <nav class="nav">
+                <div class="wrapper">
+                    <ul class="dots">
+                        <li class="dot bottom-dots" ng-repeat="slide in slides">
+                            <a href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);">{{slide.description}}</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+<script src="assets/libs/angular.min.js"></script>
+<script src="assets/libs/angular-animate.min.js"></script>
+
+<script src="app/app.js"></script>
+
+</body>
+</html>
+
+--------------------------------------------------------------------------------------------------
+
+(function(){
+    'use strict';
+    
+    angular
+        .module('website', ['ngAnimate'])
+        .controller('MainCtrl', MainCtrl)
+    
+    function MainCtrl($scope) {
+        
+        $scope.slides = [
+            {image: 'assets/cars-img/1.jpg', description: 'test'},
+            {image: 'assets/cars-img/2.jpg', description: 'test'},
+            {image: 'assets/cars-img/3.jpg', description: 'test'},
+            {image: 'assets/cars-img/4.jpg', description: 'test'},
+            {image: 'assets/cars-img/5.jpg', description: 'test'},
+            {image: 'assets/cars-img/6.jpg', description: 'Itest'},
+            {image: 'assets/cars-img/7.jpg', description: 'test'},
+            {image: 'assets/cars-img/8.jpg', description: 'test'},
+            {image: 'assets/cars-img/9.jpg', description: 'test'},
+        ];
+
+        // initially the 1st image will be shown
+        $scope.currentIndex = 0;
+
+        // this is the method for dot clicking
+        $scope.setCurrentSlideIndex = function (index) {
+            $scope.currentIndex = index;
+        };
+
+        // this will check whether the particular indexed image in the loop should be displayed or not
+        $scope.isCurrentSlideIndex = function (index) {
+            return $scope.currentIndex === index;
+        };
+
+        $scope.prevSlide = function () {
+            $scope.currentIndex = ($scope.currentIndex < $scope.slides.length - 1) ? ++$scope.currentIndex : 0;
+        };
+
+        $scope.nextSlide = function () {
+            $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.slides.length - 1;
+        };
+    }
+
+    
+})();
+
+--------------------------------------------------------------------------------------------------
+styles
+
+body {
+    overflow: hidden;
+/*    background-color: #000000;*/
+}
+
+.image-box{
+    margin-left: 300px; height: 317px; margin-top: 27px; border: 15px solid white; width:542px
+}
+
+.centered{
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.slider-container{
+    background-color: rgb(210,210,210);
+    overflow: hidden;
+    height: 1000px;
+}
+
+.arrow.prev:hover {
+    opacity: 1;
+    background-image: url(../img/paddle_prev_fff.png);
+}
+
+.left-slider{
+     z-index: 1002;
+    display: block;
+    top: 30%;
+    color: floralwhite;
+    left: 353px;
+    margin-top: -35px;
+    width: 36px;
+    height: 71px;
+    outline: none;
+    cursor: pointer;
+        position: absolute;
+    left: -15px;
+    font-size: 145px;
+}
+
+.right-slider{
+        color: floralwhite;
+    font-size: 145px;
+        position: absolute;
+    right: 142px;
+    z-index: 1002;
+    display: block;
+    top: 30%;
+    margin-top: -35px;
+    width: 36px;
+    height: 71px;
+    outline: none;
+    cursor: pointer;
+}
+
+.left-slider:hover {
+    color: black !important;
+}
+
+.right-slider:hover {
+    color: black !important;
+}
+
+/*
+.bottom-dots{
+    position: fixed;
+    left: -560px;
+    bottom: 100px;
+}
+*/
+
+.slider {
+    width: 1200px;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    background: rgb(210,210,210);
+    border: 20px solid #FFF;
+    margin-top: 20px;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.arrow {
+    position: absolute;
+    z-index: 1002;
+    display: block;
+    top: 50%;
+    margin-top: -35px;
+    width: 36px;
+    height: 71px;
+    outline: none;
+    cursor: pointer;
+    background: url(img/blank.gif) no-repeat;
+}
+
+.arrow.prev {
+    opacity: 0.2;
+    left: 20px;
+    background-image: url(../img/paddle_prev_999.png);
+    transition: 0.2s linear all;
+}
+
+.arrow.next {
+    opacity: 0.2;
+    right: 20px;
+    background-image: url(../img/paddle_next_999.png);
+    transition: 0.2s linear all;
+}
+
+.arrow.prev:hover {
+    opacity: 1;
+    background-image: url(../img/paddle_prev_fff.png);
+}
+
+.arrow.next:hover {
+    opacity: 1;
+    background-image: url(../img/paddle_next_fff.png);
+}
+
+
+/*navigator dots styles are below*/
+.nav {
+    text-align: center;
+    display: block;
+    position: absolute;
+    z-index: 1002;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 48px;
+}
+
+.nav .wrapper {
+    position: absolute;
+    bottom: 35px;
+    left: 133px;
+    margin-left: 270px;
+}
+
+.nav ul {
+    margin: 0;
+    width: 100%;
+}
+
+.nav .dot, .nav .dot a {
+    display: inline-block;
+    zoom: 1;
+}
+
+.dots .dot {
+    position: relative;
+    margin: 0 8px;
+    width: 20px;
+    height: 20px;
+}
+
+.dots .dot a {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 15px;
+    height: 15px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    background: #FFF;
+    border: 1px solid transparent;
+    outline: none;
+    box-shadow: none;
+    border-radius: 50%;
+}
+
+.dots .dot a.active {
+    border-color: #FFF;
+    background-color: transparent;
+}
